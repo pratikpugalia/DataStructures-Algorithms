@@ -5,13 +5,13 @@ using namespace std;
 typedef long long int ll;
 vector<int>ind;
 
-void lpss(string x,int lps[],int n)
+void lpss(string x,int lps[],int n) // LPS Array calculation essential for KMP
 {
 	lps[0]=0;
 	int len=0,i=1;
 	while(i<n)
 	{
-		if(x[i]==x[len])
+		if(x[i]==x[len]) // If it matches increase length of suffix that matches prefix till i and increment i
 		{
 			len++;
 			lps[i]=len;
@@ -21,11 +21,11 @@ void lpss(string x,int lps[],int n)
 		{
 			if(len!=0)
 			{
-				len=lps[len-1];
+				len=lps[len-1]; //jump to last computed index value 
 			}
 			else
 			{
-				lps[i]=0;
+				lps[i]=0; //After entire check no matches found hence 0 
 				i++;
 			}
 		}
@@ -33,30 +33,31 @@ void lpss(string x,int lps[],int n)
 }
 void kmp(string x,string y)
 {
-	int m=y.length();
-	int n=x.length();
+	int m=y.length(),n=x.length();
 	int lps[m];
 	lpss(y,lps,m);
 	int i=0,j=0;
 	while(i<n)
 	{
-		if(x[i]==y[j])
+		if(x[i]==y[j]) //For match increment both the indices
 			i++,j++;
+
 		if(j==m)
-			ind.push_back(i-j),j=lps[j-1];
+			ind.push_back(i-j),j=lps[j-1]; //if j is equal to pattern length MATCH FOUND at index i-j 
+						       //and reset skipping the starting largest prefix that are also suffix
 		else if(i<n && y[j]!=x[i])
 		{
 			if(j!=0)
-				j=lps[j-1];
+				j=lps[j-1]; //looking for point to find a positive match
 			else
-				i++;
+				i++;       //match not possible increment i
 		}
 	}
 }
 
 int main()
 {
- string x, y;	
+ 	string x, y;	
 	cin>>x>>y;
 	kmp(x,y);
 	for (int i = 0; i < ind.size(); ++i)
