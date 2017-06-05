@@ -36,6 +36,9 @@ void kmp(string x,string y)
 	int m=y.length(),n=x.length();
 	int lps[m];
 	lpss(y,lps,m);
+	for(int i=0;i<m;i++)
+		cout<<lps[i]<<" ";
+	cout<<endl;
 	int i=0,j=0;
 	while(i<n)
 	{
